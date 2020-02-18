@@ -7,6 +7,17 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.cs" />
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200218000536_UserAuth.cs" />
+    <Compile Remove="Data\Migrations\20200218000536_UserAuth.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200218164515_UpdateUserModel.cs" />
+    <Compile Remove="Data\Migrations\20200218164515_UpdateUserModel.Designer.cs" />
+    <Compile Remove="Migrations\20200218170138_UpdateUserModel.cs" />
+    <Compile Remove="Migrations\20200218170138_UpdateUserModel.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.1" />
@@ -17,6 +28,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

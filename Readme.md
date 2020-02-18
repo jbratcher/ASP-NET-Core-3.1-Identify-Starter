@@ -2,7 +2,9 @@
 
 This document shows the development process and steps required to create an application with the following features:  
 * User authentication
-* User profile with custom fields (occupation, industry, home location)
+* User profile with custom fields
+
+Identity DB context is merged with the application DB context and the custom user model (ApplicationUser) is nestled in the app Models folder.  This integrates Identity into the main application DB context and keeps all the app's models together.
 
 
 ## Overview  
@@ -15,7 +17,7 @@ A basic setup for an ASP.NET Core 3 MVC app with pre-configured user authenticat
 
 ```
 git clone https://github.com/jbratcher/ASP-NET-Core-3.1-Identify-Starter
-cd GoThere
+cd ASP-NET-Core-3.1-Identify-Starter
 ```
 
 ## Buidling from scratch
@@ -28,7 +30,7 @@ Dependencies:
 * EF Core SQL Server 3.1
 * ASP. NET Core Identity 3.1
 
-### How to get the app up and running
+### Create the app from template
 
 * Using Visual Studio, from the start screen, select Create a new project. 
 * From the Create a new project screen, select ASP.NET Core Web Application and click Next.
@@ -125,7 +127,7 @@ services.Configure<IdentityOptions>(options =>
 
 * In Shared/_LoginPartial.cshtml:
 ```
-@using GoThere.Areas.Identity.Data;
+@using ASPNETIdentityConfig.Areas.Identity.Data;
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 ```
@@ -197,3 +199,8 @@ At this point the application should be minimally functional allowing user actio
 
 * Form validation is provdied by the associated model's field attributes
 * [RegularExpression()], [Required], and [DataType()] are commonly used
+
+#### Change the primary key type for the user model
+
+[Docs](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-3.1#change-the-primary-key-type)
+

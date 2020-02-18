@@ -26,7 +26,7 @@ namespace ASPNETIdentityConfig.Controllers
         }
 
         // GET: ApplicationUsers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
             {
@@ -34,7 +34,7 @@ namespace ASPNETIdentityConfig.Controllers
             }
 
             var applicationUser = await _context.ApplicationUsers
-                .FirstOrDefaultAsync(m => Int32.Parse(m.Id) == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (applicationUser == null)
             {
                 return NotFound();
@@ -54,10 +54,11 @@ namespace ASPNETIdentityConfig.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName")] ApplicationUser applicationUser)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
         {
             if (ModelState.IsValid)
             {
+                applicationUser.Id = Guid.NewGuid();
                 _context.Add(applicationUser);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,7 +67,7 @@ namespace ASPNETIdentityConfig.Controllers
         }
 
         // GET: ApplicationUsers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -86,9 +87,9 @@ namespace ASPNETIdentityConfig.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName")] ApplicationUser applicationUser)
+        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,LastName,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
         {
-            if (id != Int32.Parse(applicationUser.Id))
+            if (id != applicationUser.Id)
             {
                 return NotFound();
             }
@@ -102,7 +103,7 @@ namespace ASPNETIdentityConfig.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ApplicationUserExists(Int32.Parse(applicationUser.Id)))
+                    if (!ApplicationUserExists(applicationUser.Id))
                     {
                         return NotFound();
                     }
@@ -117,7 +118,7 @@ namespace ASPNETIdentityConfig.Controllers
         }
 
         // GET: ApplicationUsers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {
@@ -125,7 +126,7 @@ namespace ASPNETIdentityConfig.Controllers
             }
 
             var applicationUser = await _context.ApplicationUsers
-                .FirstOrDefaultAsync(m => Int32.Parse(m.Id) == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (applicationUser == null)
             {
                 return NotFound();
@@ -137,7 +138,7 @@ namespace ASPNETIdentityConfig.Controllers
         // POST: ApplicationUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var applicationUser = await _context.ApplicationUsers.FindAsync(id);
             _context.ApplicationUsers.Remove(applicationUser);
@@ -145,9 +146,9 @@ namespace ASPNETIdentityConfig.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ApplicationUserExists(int id)
+        private bool ApplicationUserExists(Guid id)
         {
-            return _context.ApplicationUsers.Any(e => Int32.Parse(e.Id) == id);
+            return _context.ApplicationUsers.Any(e => e.Id == id);
         }
     }
 }

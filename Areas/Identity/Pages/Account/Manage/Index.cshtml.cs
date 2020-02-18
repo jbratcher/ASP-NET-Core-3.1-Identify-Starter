@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using ASPNETIdentityConfig.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ASPNETIdentityConfig.Areas.Identity;
+using ASPNETIdentityConfig.Models;
 
 namespace ASPNETIdentityConfig.Areas.Identity.Pages.Account.Manage
 {
@@ -24,6 +25,8 @@ namespace ASPNETIdentityConfig.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -36,9 +39,13 @@ namespace ASPNETIdentityConfig.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
-            public string Username { get; set; }
+
             public string FirstName { get; set; }
+
             public string LastName { get; set; }
+
+            public string FullName = "{firstName} {lastName}";
+
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -102,6 +109,8 @@ namespace ASPNETIdentityConfig.Areas.Identity.Pages.Account.Manage
             {
                 user.LastName = Input.LastName;
             }
+
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
