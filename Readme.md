@@ -9,12 +9,12 @@ This document shows the development process and steps required to create an appl
 
 A basic setup for an ASP.NET Core 3 MVC app with pre-configured user authentication via Identity.
 
-[Github Repo](https://github.com/jbratcher/)
+[Github Repo](https://github.com/jbratcher/ASP-NET-Core-3.1-Identify-Starter)
 
 ## Getting Started  
 
 ```
-git clone https://github.com/jbratcher/
+git clone https://github.com/jbratcher/ASP-NET-Core-3.1-Identify-Starter
 cd GoThere
 ```
 
@@ -59,8 +59,8 @@ This project uses local users and the ASP.NET Core Identity module for user auth
 * In the Add Identity dialog, the following options:  
     * Select the existing layout file ~/Pages/Shared/_Layout.cshtml
     * Select the ApplicationDBContext for the context
-    * Select Add.
-* Manually create Data folder in Areas/Identity and add User class (GoThereUser.cs)
+    * Select Add
+* Add an ApplicationUser.cs class to the Models folder with any necessary fields that inherits from IdentityUser.cs.
 * From the Package Manager Console, add a migration and update the database
 
 #### Update Scaffolded items to use custom user class
@@ -71,14 +71,14 @@ This project uses local users and the ASP.NET Core Identity module for user auth
 
 In ApplicationDBContext.cs, create a DBSet of Users (list of users):
 ```
-public DbSet<GoThereUser> GoThereUsers { get; set; }
+public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 ```
 
 ##### Startup.Configure and Startup.ConfigureServices
 
 In Startup.Configure Services, add/replace the current AddIdentity method with the following:
 ```
-services.AddIdentity<GoThereUser, IdentityRole>()
+services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders()
     .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -126,8 +126,8 @@ services.Configure<IdentityOptions>(options =>
 * In Shared/_LoginPartial.cshtml:
 ```
 @using GoThere.Areas.Identity.Data;
-@inject SignInManager<GoThereUser> SignInManager
-@inject UserManager<GoThereUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 ```
 This global shared partial view, requires the sign in and user manager services from the custom user class
 

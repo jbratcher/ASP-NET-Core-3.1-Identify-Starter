@@ -22,7 +22,7 @@ namespace ASPNETIdentityConfig.Controllers
         // GET: ApplicationUsers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ApplicationUser.ToListAsync());
+            return View(await _context.ApplicationUsers.ToListAsync());
         }
 
         // GET: ApplicationUsers/Details/5
@@ -33,8 +33,8 @@ namespace ASPNETIdentityConfig.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await _context.ApplicationUser
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var applicationUser = await _context.ApplicationUsers
+                .FirstOrDefaultAsync(m => Int32.Parse(m.Id) == id);
             if (applicationUser == null)
             {
                 return NotFound();
@@ -73,7 +73,7 @@ namespace ASPNETIdentityConfig.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await _context.ApplicationUser.FindAsync(id);
+            var applicationUser = await _context.ApplicationUsers.FindAsync(id);
             if (applicationUser == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace ASPNETIdentityConfig.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName")] ApplicationUser applicationUser)
         {
-            if (id != applicationUser.Id)
+            if (id != Int32.Parse(applicationUser.Id))
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace ASPNETIdentityConfig.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ApplicationUserExists(applicationUser.Id))
+                    if (!ApplicationUserExists(Int32.Parse(applicationUser.Id)))
                     {
                         return NotFound();
                     }
@@ -124,8 +124,8 @@ namespace ASPNETIdentityConfig.Controllers
                 return NotFound();
             }
 
-            var applicationUser = await _context.ApplicationUser
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var applicationUser = await _context.ApplicationUsers
+                .FirstOrDefaultAsync(m => Int32.Parse(m.Id) == id);
             if (applicationUser == null)
             {
                 return NotFound();
@@ -139,15 +139,15 @@ namespace ASPNETIdentityConfig.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var applicationUser = await _context.ApplicationUser.FindAsync(id);
-            _context.ApplicationUser.Remove(applicationUser);
+            var applicationUser = await _context.ApplicationUsers.FindAsync(id);
+            _context.ApplicationUsers.Remove(applicationUser);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ApplicationUserExists(int id)
         {
-            return _context.ApplicationUser.Any(e => e.Id == id);
+            return _context.ApplicationUsers.Any(e => Int32.Parse(e.Id) == id);
         }
     }
 }
